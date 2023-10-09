@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Train booking app</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main_home">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="starting_point_prompt">Choose a Starting Point</string>
+    <string name="destination_prompt">Choose a Destination</string>
 </resources>

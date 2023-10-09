@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="main">#FF5722</color>
+    <color name="button_color">#546fe8</color>
+    <color name="book_button_color">#2B2A2A</color>
+    <color name="disabled_button_color">#999999</color>
+    <color name="card_background_color">#FF5722</color>
+    <color name="card_sort_background_color">#F0F0F0</color>
+    <color name="disabled_button">#cdd4d3</color>
+    <color name="sort_card">#CDD4D3</color>
+    <color name="deactive_button">#cdd4d3</color>
+
 </resources>

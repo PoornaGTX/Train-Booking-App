@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="starting_points">
+        <item>Select Starting Station</item>
+        <item>Kandy</item>
+        <item>Colombo</item>
+        <item>Jaffna</item>
+    </string-array>
+
+    <string-array name="destinations">
+        <item>Select Destination Station</item>
+        <item>Kandy</item>
+        <item>Colombo</item>
+        <item>Jaffna</item>
+    </string-array>
+</resources>
