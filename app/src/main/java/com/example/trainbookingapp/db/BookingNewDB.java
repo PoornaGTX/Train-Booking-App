@@ -1,7 +1,5 @@
 package com.example.trainbookingapp.db;
 
-import static com.example.trainbookingapp.db.DBMaster.Book.TABLE_NAME1;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -25,7 +23,7 @@ public class BookingNewDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //creating booking table
         String SQL_CREATE_USER_ENTRIES =
-                "CREATE TABLE "+ TABLE_NAME1 + " (" +
+                "CREATE TABLE "+ DBMaster.Book.TABLE_NAME1 + " (" +
                         DBMaster.Book._ID + " INTEGER PRIMARY KEY," +
                         DBMaster.Book.COLUMN_DBID + " TEXT," +
                         DBMaster.Book.COLUMN_NAME_START + " TEXT," +
@@ -39,7 +37,7 @@ public class BookingNewDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String DROP_TABLE_QUERY1 = "DROP TABLE IF EXISTS "+ TABLE_NAME1;
+        String DROP_TABLE_QUERY1 = "DROP TABLE IF EXISTS "+ DBMaster.Book.TABLE_NAME1;
         // Drop older table if existed
         sqLiteDatabase.execSQL(DROP_TABLE_QUERY1);
 
@@ -58,7 +56,7 @@ public class BookingNewDB extends SQLiteOpenHelper {
         values.put(DBMaster.Book.COLUMN_NAME_TIME,booking.getTime());
         values.put(DBMaster.Book.COLUMN_NAME_EMAIL,booking.getUserEmail());
 
-        long newRowId= db.insert(TABLE_NAME1,null,values);
+        long newRowId= db.insert(DBMaster.Book.TABLE_NAME1,null,values);
         if (newRowId>=1)
             return true;
         else
@@ -70,7 +68,7 @@ public class BookingNewDB extends SQLiteOpenHelper {
 
         List<BookingSQL> booking = new ArrayList();
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM "+ TABLE_NAME1;
+        String query = "SELECT * FROM "+ DBMaster.Book.TABLE_NAME1;
 
         Cursor cursor = db.rawQuery(query,null);
 
@@ -97,7 +95,7 @@ public class BookingNewDB extends SQLiteOpenHelper {
     public boolean isBookingExists(String bookingId) {
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT " + DBMaster.Book._ID +
-                " FROM " + TABLE_NAME1 +
+                " FROM " + DBMaster.Book.TABLE_NAME1 +
                 " WHERE " + DBMaster.Book.COLUMN_DBID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{bookingId});

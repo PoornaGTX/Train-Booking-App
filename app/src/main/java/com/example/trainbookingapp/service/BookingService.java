@@ -4,6 +4,7 @@ import com.example.trainbookingapp.model.BookingRequest;
 import com.example.trainbookingapp.model.BookingResponse;
 import com.example.trainbookingapp.model.BookingUpdateRequest;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -16,21 +17,21 @@ import retrofit2.http.Query;
 public interface BookingService {
 
     //book train route
-    @POST("api/v1/shedule/book")
+    @POST("api/Bookings")
     Call<BookingResponse> bookTrain(@Body BookingRequest bookingRequest);
 
     //get user bookings route
-    @GET("api/v1/shedule/book")
+    @GET("api/Bookings/filter")
     Call<BookingResponse> getUserBooking(@Query("userEmail") String userEmail);
 
     //update booking route
-    @PATCH("api/v1/shedule/bookupdate/{id}")
+    @PATCH("api/Bookings/{id}")
     Call<BookingResponse> updateBooking(
-            @Path("id") String _id,
-            @Body BookingUpdateRequest updateRequest
+            @Path("id") String id,
+            @Body RequestBody requestBody
     );
 
     //cancel booking
-    @DELETE("/api/v1/shedule/bookupdate/{id}")
+    @DELETE("/api/Bookings/{id}")
     Call<Void> deleteBooking(@Path("id") String id);
 }

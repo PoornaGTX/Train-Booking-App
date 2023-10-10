@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginApiClient {
 
     private final LoginService loginService;
-    private static final String BASE_URL = "https://6f48-2402-4000-21c2-2777-58ae-935b-f2f2-dbe8.ngrok-free.app/";
+    private static final String BASE_URL = "https://f3cc-2a09-bac1-4360-00-279-9d.ngrok-free.app/";
 
     // Constructor to initialize the LoginApiClient
     public LoginApiClient() {

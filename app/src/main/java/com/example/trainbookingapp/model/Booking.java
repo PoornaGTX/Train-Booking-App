@@ -1,5 +1,7 @@
 package com.example.trainbookingapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -9,28 +11,35 @@ public class Booking implements Serializable  {
     private String destination;
     private String startingPoint;
     private String date;
-    private String time;
-    private String userEmail;
-    private List<Map<String, String>> availableDates;
-    private List<Map<String, String>> availableTimes;
+    private String arrivalTimeToEndStation;
 
-    private String _id;
+    private String departureTimeFromStartStation;
+
+    private String ticketPrice;
+    private String userEmail;
+    @SerializedName("availableDates")
+    private Map<String, String> availableDates;
+
+    @SerializedName("availableTimes")
+    private Map<String, String> availableTimes;
+    private String id;
 
     // Constructor
-    public Booking(String destination, String startingPoint, String time, String date,String _id) {
+    public Booking(String destination, String startingPoint, String date,String id,String arrivalTimeToEndStation,String departureTimeFromStartStation) {
         this.destination = destination;
         this.startingPoint = startingPoint;
-        this.time = time;
+        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.date = date;
-        this._id = _id;
+        this.id = id;
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = _id;
+        this.id = id;
     }
 
     public String getDestination() {
@@ -58,11 +67,27 @@ public class Booking implements Serializable  {
     }
 
     public String getTime() {
-        return time;
+        return arrivalTimeToEndStation;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(String arrivalTimeToEndStation) {
+        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
+    }
+
+    public String getTimeTwo() {
+        return departureTimeFromStartStation;
+    }
+
+    public void setTimeTwo(String departureTimeFromStartStation) {
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
+    }
+
+    public String getticketPrice() {
+        return ticketPrice;
+    }
+
+    public void setticketPrice(String ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public String getUserEmail() {
@@ -73,19 +98,20 @@ public class Booking implements Serializable  {
         this.userEmail = userEmail;
     }
 
-    public List<Map<String, String>> getAvailableDates() {
+
+    public Map<String, String> getAvailableDates() {
         return availableDates;
     }
 
-    public void setAvailableDates(List<Map<String, String>> availableDates) {
+    public void setAvailableDates(Map<String, String> availableDates) {
         this.availableDates = availableDates;
     }
 
-    public List<Map<String, String>> getAvailableTimes() {
+    public Map<String, String> getAvailableTimes() {
         return availableTimes;
     }
 
-    public void setAvailableTimes(List<Map<String, String>> availableTimes) {
+    public void setAvailableTimes(Map<String, String> availableTimes) {
         this.availableTimes = availableTimes;
     }
 }

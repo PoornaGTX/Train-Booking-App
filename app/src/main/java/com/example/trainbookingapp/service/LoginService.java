@@ -10,6 +10,6 @@ import retrofit2.http.POST;
 public interface LoginService {
 
     //login route
-    @POST("api/v1/auth/login")
+    @POST("api/Users/login")
     Call<LoginResponse> login(@Body LoginRequestBody request);
 }

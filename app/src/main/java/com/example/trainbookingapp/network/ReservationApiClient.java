@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReservationApiClient {
     private final ReservationService reservationService;
-    private static final String BASE_URL = "https://6f48-2402-4000-21c2-2777-58ae-935b-f2f2-dbe8.ngrok-free.app/";
+    private static final String BASE_URL = "https://f3cc-2a09-bac1-4360-00-279-9d.ngrok-free.app/";
 
     public ReservationApiClient() {
         // Create a logging interceptor

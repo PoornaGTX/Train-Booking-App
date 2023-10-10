@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.icu.text.SimpleDateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.destinationTextView.setText("Destination : " + booking.getDestination());
         holder.startingTextView.setText("From: " + booking.getStartingPoint());
         holder.dateTextView.setText("Date: " + booking.getDate());
-        holder.timeTextView.setText("Time: " + booking.getTime());
+        holder.timeTextView.setText("Time: " + booking.getTimeTwo());
 
 
         // If the network connection not available

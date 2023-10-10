@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
     private SharedPreferencesManager sharedPreferencesManager;
     private EditText fullNameTextView, nicTextView, emailTextView;
-    private Button editProfileButton, logoutButton;
+    private Button editProfileButton, logoutButton,disableButton;
 
     public ProfileFragment() {
     }
@@ -51,6 +51,7 @@ public class ProfileFragment extends Fragment {
         emailTextView = view.findViewById(R.id.emailEditText);
         editProfileButton = view.findViewById(R.id.editProfileButton);
         logoutButton = view.findViewById(R.id.logoutButton);
+        disableButton= view.findViewById(R.id.disableButton);
 
         // Initialize the views and click listeners
         Button logoutButton = view.findViewById(R.id.logoutButton);
@@ -79,6 +80,16 @@ public class ProfileFragment extends Fragment {
                 logout();
             }
         });
+
+
+        disableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show the deactivation confirmation dialog
+                showDeactivationConfirmationDialog();
+            }
+        });
+
     }
 
     private void showEditProfileDialog(String currentFullName ,String email) {
@@ -166,6 +177,7 @@ public class ProfileFragment extends Fragment {
         dialog.show();
     }
 
+    //logout function
     private void logout() {
         // Clear user data from SharedPreferences
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(requireContext());
@@ -175,5 +187,97 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(requireContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    //deactivate account function
+    private void deactivateAccount() {
+        // Get the user NIC from SharedPreferences
+        String userNIC = sharedPreferencesManager.getNIC();
+
+        Log.e("API Error", "userNIC: "+  userNIC);
+
+        // Create an instance of ProfileApiClient
+        ProfileApiClient profileApiClient = new ProfileApiClient();
+
+        // request object with isActivate set to false and user NIC
+        ProfileUpdateRequest request = new ProfileUpdateRequest();
+        request.setActivate(false);
+
+        // API call to deactivate the account
+        Call<Void> call = profileApiClient.deactivateAccount(userNIC, request);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    showDeactivationSuccessDialog();
+                } else {
+                    showDeactivationErrorDialog();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                showDeactivationErrorDialog();
+            }
+        });
+    }
+
+    private void showDeactivationConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Deactivate Account");
+        builder.setMessage("Are you sure you want to deactivate your account?");
+
+        // handler for confirmation button
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deactivateAccount();
+                dialog.dismiss();
+            }
+        });
+
+        // handler for cancellation button
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDeactivationSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Deactivation Success");
+        builder.setMessage("Your account has been deactivated successfully.");
+
+        // handler for OK button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDeactivationErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Deactivation Error");
+        builder.setMessage("Failed to deactivate your account. Please try again later.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

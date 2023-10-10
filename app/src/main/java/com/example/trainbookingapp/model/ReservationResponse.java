@@ -7,9 +7,9 @@ import java.util.List;
 public class ReservationResponse {
 
     @SerializedName("shedule")
-    private List<Reservation> schedule;
+    private List<Reservation> shedule;
 
     public List<Reservation> getSchedule() {
-        return schedule;
+        return shedule;
     }
 }

@@ -25,11 +25,13 @@ import android.widget.Toast;
 
 import com.example.trainbookingapp.model.Booking;
 import com.example.trainbookingapp.model.BookingResponse;
+import com.example.trainbookingapp.model.BookingUpdateOperation;
 import com.example.trainbookingapp.model.BookingUpdateRequest;
 import com.example.trainbookingapp.network.BookingApiClient;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +47,9 @@ public class BookingEditDialogFragment extends DialogFragment {
     private RadioGroup timeRadioGroup;
 
     private AlertDialog dialog;
+
+    private TextView dateTextView;
+    private TextView timeTextView;
 
     private UserBookingsFragment reservationFragment;
 
@@ -80,7 +85,7 @@ public class BookingEditDialogFragment extends DialogFragment {
         handler = new Handler(Looper.getMainLooper());
 
         if (!isAdded()) {
-            // Fragment is not attached to a context, return a default dialog or handle it as needed
+            // Fragment is not attached to a context, return a default dialog
             return super.onCreateDialog(savedInstanceState);
         }
 
@@ -105,15 +110,20 @@ public class BookingEditDialogFragment extends DialogFragment {
         TextView startingPointTextView = view.findViewById(R.id.startingPointTextView);
         TextView destinationTextView = view.findViewById(R.id.destinationTextView);
 
+        dateTextView = view.findViewById(R.id.dateTextView);
+        timeTextView = view.findViewById(R.id.timeTextView);
+
+        // Set text for date and time
+        dateTextView.setText("Date: " + booking.getDate());
+        timeTextView.setText("Time: " + booking.getTime());
+
+
         TextView dateTextView = view.findViewById(R.id.dateTextView);
         TextView timeTextView = view.findViewById(R.id.timeTextView);
 
         startingPointTextView.setText("Starting Point: " + booking.getStartingPoint());
         destinationTextView.setText("Destination: " + booking.getDestination());
 
-        // Set text for date and time
-        dateTextView.setText("Date: " + booking.getDate());
-        timeTextView.setText("Time: " + booking.getTime());
 
         // Add click listeners for date and time selections
         dateTextView.setOnClickListener(new View.OnClickListener() {
@@ -169,8 +179,6 @@ public class BookingEditDialogFragment extends DialogFragment {
             }
         });
 
-
-
         // Set the view for the dialog
         builder.setView(view);
 
@@ -216,8 +224,6 @@ public class BookingEditDialogFragment extends DialogFragment {
             Log.e("FragmentError", "Fragment is not added to an activity.");
         }
     }
-
-
 
 
     private void setupDateSelectionListener(final TextView dateTextView) {
@@ -277,7 +283,6 @@ public class BookingEditDialogFragment extends DialogFragment {
     }
 
 
-
     private void handleCustomSaveButtonClick() {
         // Check if a radio button is selected before proceeding
         int selectedRadioButtonId = timeRadioGroup.getCheckedRadioButtonId();
@@ -294,14 +299,16 @@ public class BookingEditDialogFragment extends DialogFragment {
             }
 
             if (updateRequest.getTime() == null) {
-                updateRequest.setTime(booking.getTime());
+                updateRequest.setTime(booking.getTimeTwo());
             }
 
-
+            List<BookingUpdateOperation> updateOperations = new ArrayList<>();
+            updateOperations.add(new BookingUpdateOperation("date", updateRequest.getDate()));
+            updateOperations.add(new BookingUpdateOperation("departureTimeFromStartStation", updateRequest.getTime()));
 
             // Call the method to send the PATCH request with the updateRequest
             BookingApiClient bookingApiClient = new BookingApiClient();
-            bookingApiClient.updateBooking(booking.getId(), updateRequest, new Callback<BookingResponse>() {
+            bookingApiClient.updateBooking(booking.getId(), updateOperations, new Callback<BookingResponse>() {
                 @Override
                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                     if (response.isSuccessful()) {
@@ -312,7 +319,6 @@ public class BookingEditDialogFragment extends DialogFragment {
                             if (getParentFragment() instanceof OnBookingUpdatedListener) {
                                 ((OnBookingUpdatedListener) getParentFragment()).onBookingUpdated();
                             }
-                            // Handle the updated booking data, if needed
                         }
                     } else {
                         // Handle the error response here
@@ -338,7 +344,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                 }
             });
         } else {
-            // No radio button is selected, show an error message or handle as needed
+            // No radio button is selected, show an error message
             Toast.makeText(requireContext(), "Please select a time.", Toast.LENGTH_SHORT).show();
         }
 
@@ -347,36 +353,63 @@ public class BookingEditDialogFragment extends DialogFragment {
 
 
     private void handleCustomCancelButtonClick() {
-        // Handle cancel action here, if needed
-
-        // Dismiss the dialog if needed
         dismiss();
     }
 
-
     // Helper method to populate available dates with radio buttons
-    private void populateAvailableDates(RadioGroup radioGroup, List<Map<String, String>> availableDates) {
-        for (Map<String, String> dateMap : availableDates) {
-            Log.d("availableDates", "forloop: " +availableDates);
-            for (String date : dateMap.values()) {
-                RadioButton radioButton = new RadioButton(requireContext());
-                radioButton.setText(date);
-                radioGroup.addView(radioButton);
-            }
+    private void populateAvailableDates(RadioGroup radioGroup, Map<String, String> availableDatesMap) {
+        for (Map.Entry<String, String> entry : availableDatesMap.entrySet()) {
+            String dateKey = entry.getKey();
+            String dateValue = entry.getValue();
+
+            RadioButton radioButton = new RadioButton(requireContext());
+            radioButton.setText(dateValue);
+            radioButton.setTag(dateValue); // Store the date value as a tag
+            radioGroup.addView(radioButton);
+
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String selectedDate = (String) v.getTag();
+                    // Set text for date
+                    dateTextView.setText("Date: " + selectedDate);
+                    dateTextView.setTextColor(Color.RED);
+
+                    // Update the updateRequest object immediately
+                    updateRequest.setDate(selectedDate);
+
+                    // Enable the save button
+                    enableSaveButtonIfBothDateAndTimeSelected();
+                }
+            });
         }
     }
-    // Helper method to populate available times with radio buttons
-    private void populateAvailableTimes(RadioGroup radioGroup, List<Map<String, String>> availableTimesMaps) {
-        // Clear existing radio buttons
-        radioGroup.removeAllViews();
 
-        // Create and add radio buttons for available times
-        for (Map<String, String> timeMap : availableTimesMaps) {
-            for (String time : timeMap.values()) {
-                RadioButton radioButton = new RadioButton(requireContext());
-                radioButton.setText(time);
-                radioGroup.addView(radioButton);
-            }
+    private void populateAvailableTimes(RadioGroup radioGroup, Map<String, String> availableTimesMap) {
+        for (Map.Entry<String, String> entry : availableTimesMap.entrySet()) {
+            String timeKey = entry.getKey();
+            String timeValue = entry.getValue();
+
+            RadioButton radioButton = new RadioButton(requireContext());
+            radioButton.setText(timeValue);
+            radioButton.setTag(timeValue); // Store the time value as a tag
+            radioGroup.addView(radioButton);
+
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String selectedTime = (String) v.getTag();
+                    // Set text for time
+                    timeTextView.setText("Time: " + selectedTime);
+                    timeTextView.setTextColor(Color.RED);
+
+                    // Update the updateRequest object immediately
+                    updateRequest.setTime(selectedTime);
+
+                    // Enable the save button
+                    enableSaveButtonIfBothDateAndTimeSelected();
+                }
+            });
         }
     }
 

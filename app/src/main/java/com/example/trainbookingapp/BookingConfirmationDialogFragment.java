@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.trainbookingapp.model.AvailableDates;
+import com.example.trainbookingapp.model.AvailableTimes;
 import com.example.trainbookingapp.model.BookingRequest;
 import com.example.trainbookingapp.model.BookingResponse;
 import com.example.trainbookingapp.network.BookingApiClient;
@@ -44,7 +46,10 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     private String startingPoint;
     private String date;
     private String time;
-    private  String id;
+
+    private String time2;
+
+    private  String sheduleID;
     private List<String> selectedAvailableDates;
     private List<String> selectedAvailableTimes;
     private Handler handler;
@@ -60,14 +65,15 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     }
 
     // Method to set reservation details
-    public void setReservationDetails(String destination, String startingPoint, String date, String time, String id) {
+    public void setReservationDetails(String destination, String startingPoint, String date, String time,String time2, String sheduleID) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
         this.time = time;
-        this.id = id;
-
+        this.time2 = time2;
+        this.sheduleID = sheduleID;
     }
+
 
     @NonNull
     @Override
@@ -80,6 +86,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
             return super.onCreateDialog(savedInstanceState);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+
 
         // Inflate the dialog layout
         LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -172,36 +179,32 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
 
         String nic =sharedPreferencesManager.getNIC();
 
-        Log.d("RegistrationResponse", "nicnicnicnicnic: " + nic);
-
         BookingRequest request = new BookingRequest();
         request.setDestination(destination);
         request.setStartingPoint(startingPoint);
         request.setDate(date);
         request.setTime(time);
-        request.setID(id);
+        request.setTimeTwo(time2);
+        request.setID(sheduleID);
         request.setNIC(nic);
 
 
-        // Convert selectedAvailableDates
-        List<Map<String, String>> availableDatesList = new ArrayList<>();
-        for (int i = 0; i < selectedAvailableDates.size(); i++) {
-            Map<String, String> dateMap = new HashMap<>();
-            dateMap.put("date" + (i + 1), selectedAvailableDates.get(i));
-            availableDatesList.add(dateMap);
-        }
+        AvailableDates availableDates = new AvailableDates();
+        AvailableTimes availableTimes = new AvailableTimes();
 
-        // Convert selectedAvailableTimes
-        List<Map<String, String>> availableTimesList = new ArrayList<>();
-        for (int i = 0; i < selectedAvailableTimes.size(); i++) {
-            Map<String, String> timeMap = new HashMap<>();
-            timeMap.put("time" + (i + 1), selectedAvailableTimes.get(i));
-            availableTimesList.add(timeMap);
-        }
+        // Populate the instances with selected available dates and times
+        availableDates.setDate1(selectedAvailableDates.get(0));
+        availableDates.setDate2(selectedAvailableDates.get(1));
+        availableDates.setDate3(selectedAvailableDates.get(2));
 
-        // Set the selected available dates and times in the request
-        request.setAvailableDates(availableDatesList);
-        request.setAvailableTimes(availableTimesList);
+        availableTimes.setTime1(selectedAvailableTimes.get(0));
+        availableTimes.setTime2(selectedAvailableTimes.get(1));
+        availableTimes.setTime3(selectedAvailableTimes.get(2));
+
+        // Set the instances in the BookingRequest
+        request.setAvailableDates(availableDates);
+        request.setAvailableTimes(availableTimes);
+
 
         // get user email from sharedPreference
         sharedPreferencesManager = new SharedPreferencesManager(requireContext());
@@ -228,8 +231,8 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
                             try {
                                 JSONObject errorJson = new JSONObject(response.errorBody().string());
                                 String errorMsg = errorJson.getString("msg");
+                                Log.d("API Response", "Success: " + response.body());
                                 showErrorDialog(errorMsg);
-                                Log.e("API Error", "Failed to update booking: " + errorMsg);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

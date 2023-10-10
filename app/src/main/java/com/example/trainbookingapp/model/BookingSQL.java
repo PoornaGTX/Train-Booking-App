@@ -11,7 +11,11 @@ public class BookingSQL {
     private String destination;
     private String startingPoint;
     private String date;
-    private String time;
+    private String arrivalTimeToEndStation;
+
+    private String departureTimeFromStartStation;
+
+    private String ticketPrice;
     private String userEmail;
 
     private  String _id;
@@ -19,16 +23,15 @@ public class BookingSQL {
     public BookingSQL(){}
 
     // Constructor
-    public BookingSQL(String destination, String startingPoint, String date, String time, String userEmail,String _id) {
+    public BookingSQL(String destination, String startingPoint, String date, String userEmail,String _id,String arrivalTimeToEndStation,String departureTimeFromStartStation) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
-        this.time = time;
+        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.userEmail = userEmail;
         this._id = _id;
     }
-
-
     public long getId() {
         return id;
     }
@@ -70,11 +73,19 @@ public class BookingSQL {
     }
 
     public String getTime() {
-        return time;
+        return arrivalTimeToEndStation;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(String arrivalTimeToEndStation) {
+        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
+    }
+
+    public String getTimeTwo() {
+        return departureTimeFromStartStation;
+    }
+
+    public void setTimeTwo(String departureTimeFromStartStation) {
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
     }
 
     public String getUserEmail() {

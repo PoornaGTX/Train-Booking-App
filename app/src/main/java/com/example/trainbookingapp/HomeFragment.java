@@ -150,11 +150,9 @@ public class HomeFragment extends Fragment {
         loadingProgressBar.setVisibility(View.VISIBLE);
 
         ReservationApiClient reservationApiClient = new ReservationApiClient();
-
         reservationApiClient.getReservations(new Callback<ReservationResponse>() {
             @Override
             public void onResponse(Call<ReservationResponse> call, Response<ReservationResponse> response) {
-
                 if (response.isSuccessful()) {
                     fetchedReservations = response.body().getSchedule();
 

@@ -11,7 +11,7 @@ public class BookingUpdateRequest {
     private String startingPoint;
     private String destination;
     private String date;
-    private String time;
+    private String departureTimeFromStartStation;
     @SerializedName("availableDates")
     private List<Map<String, String>> availableDatesList;
 
@@ -51,11 +51,11 @@ public class BookingUpdateRequest {
     }
 
     public String getTime() {
-        return time;
+        return departureTimeFromStartStation;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(String departureTimeFromStartStation) {
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
     }
 
     public List<Map<String, String>> getAvailableDatesList() {

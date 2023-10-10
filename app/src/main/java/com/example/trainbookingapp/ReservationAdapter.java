@@ -25,6 +25,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.example.trainbookingapp.R;
+
+
 public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder> {
 
     private List<Reservation> reservations;
@@ -63,7 +66,9 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             holder.destinationTextView.setText("Destination: " + reservation.getDestination());
             holder.startingPointTextView.setText("From: " + reservation.getStartingPoint());
             holder.dateTextView.setText("Date: " + reservation.getDate());
-            holder.timeTextView.setText("Departure: " + reservation.getTime()+".00 AM");
+            holder.timeTextView.setText("Departure: " + reservation.getTime());
+            holder.arrivalTimeTextView.setText("Arrival: " + reservation.getTimeTwo());
+            holder.ticketPrice.setText("Ticket Price: Rs."+ reservation.getticketPrice());
 
             holder.bookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,7 +105,6 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                         }
                     }
 
-
                     try {
                         Date bookingDate = sdf.parse(reservation.getDate());
                         Calendar bookingDateCalendar = Calendar.getInstance();
@@ -125,6 +129,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                                         selectedReservation.getStartingPoint(),
                                         selectedReservation.getDate(),
                                         selectedReservation.getTime(),
+                                        selectedReservation.getTimeTwo(),
                                         selectedReservation.getID()
                                 );
                                 dialogFragment.show(fragment.requireActivity().getSupportFragmentManager(), "BookingConfirmationDialog");
@@ -169,6 +174,10 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         TextView startingPointTextView;
         TextView timeTextView;
 
+        TextView arrivalTimeTextView;
+
+        TextView ticketPrice;
+
         TextView dateTextView;
         Button bookButton;
 
@@ -178,6 +187,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             startingPointTextView = itemView.findViewById(R.id.startingPointTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
+            arrivalTimeTextView = itemView.findViewById(R.id.arrivalTextView);
+            ticketPrice = itemView.findViewById(R.id.ticketTextView);
             bookButton = itemView.findViewById(R.id.bookButton);
         }
     }

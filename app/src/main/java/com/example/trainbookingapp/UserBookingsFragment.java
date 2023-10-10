@@ -1,6 +1,5 @@
 package com.example.trainbookingapp;
 
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -115,41 +114,59 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
 
                     recyclerView.setVisibility(View.VISIBLE);
                     noDataTextView.setVisibility(View.GONE);
-
                     if (bookings != null && !bookings.isEmpty()) {
-                        // Iterate through the bookings and parse available dates and times
                         for (Booking booking : bookings) {
-                            List<String> availableDates = new ArrayList<>();
-                            List<String> availableTimes = new ArrayList<>();
+                            // Parse available dates
+//                            List<Map<String, String>> availableDatesList = booking.getAvailableDatesList();
+//                            List<String> availableDates = new ArrayList<>();
 
-                            for (Map<String, String> dateMap : booking.getAvailableDates()) {
-                                for (String date : dateMap.values()) {
-                                    availableDates.add(date);
-                                }
-                            }
+//                            Map<String, String> availableDatesMap = new HashMap<>();
+//                            Map<String, String> availableTimesMap = new HashMap<>();
 
-                            for (Map<String, String> timeMap : booking.getAvailableTimes()) {
-                                for (String time : timeMap.values()) {
-                                    availableTimes.add(time);
-                                }
-                            }
 
-                            // Update the booking object with parsed available dates and times
+//                            for (Map<String, String> dateMap : availableDatesList) {
+//                                for (String dateValue : dateMap.values()) {
+//                                    availableDates.add(dateValue);
+//                                }
+//                            }
+//
+//                            // Parse available times
+//                            List<Map<String, String>> availableTimesList = booking.getAvailableTimesList();
+//                            List<String> availableTimes = new ArrayList<>();
+//
+//                            for (Map<String, String> timeMap : availableTimesList) {
+//                                for (String timeValue : timeMap.values()) {
+//                                    availableTimes.add(timeValue);
+//                                }
+//                            }
+
                             Map<String, String> availableDatesMap = new HashMap<>();
-                            for (int i = 0; i < availableDates.size(); i++) {
-                                availableDatesMap.put("date" + (i + 1), availableDates.get(i));
+                            List<String> availableDates = new ArrayList<>();
+                            for (int i = 1; i <= 3; i++) {
+                                String dateKey = "date" + i;
+                                String dateValue = booking.getAvailableDates().get(dateKey);
+                                if (dateValue != null) {
+                                    availableDatesMap.put(dateKey, dateValue);
+                                    availableDates.add(dateValue);
+                                }
                             }
 
+// Parse available times
                             Map<String, String> availableTimesMap = new HashMap<>();
-                            for (int i = 0; i < availableTimes.size(); i++) {
-                                availableTimesMap.put("time" + (i + 1), availableTimes.get(i));
+                            List<String> availableTimes = new ArrayList<>();
+                            for (int i = 1; i <= 3; i++) {
+                                String timeKey = "time" + i;
+                                String timeValue = booking.getAvailableTimes().get(timeKey);
+                                if (timeValue != null) {
+                                    availableTimesMap.put(timeKey, timeValue);
+                                    availableTimes.add(timeValue);
+                                }
                             }
 
-                            booking.setAvailableDates(Collections.singletonList(availableDatesMap));
-                            booking.setAvailableTimes(Collections.singletonList(availableTimesMap));
-                        }
+// Update the booking object with parsed available dates and times
+                            booking.setAvailableDates(availableDatesMap);
+                            booking.setAvailableTimes(availableTimesMap);
 
-                        for (Booking booking : bookings) {
                             // Insert the current booking item into the database
                             insertBookingToDatabase(booking);
                         }
@@ -185,6 +202,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     bookingSQL.getDestination(),
                     bookingSQL.getStartingPoint(),
                     bookingSQL.getDate(),
+                    bookingSQL.getTimeTwo(),
                     bookingSQL.getTime(),
                     bookingSQL.get_id()
             );
@@ -216,6 +234,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     booking.getStartingPoint(),
                     booking.getDate(),
                     booking.getTime(),
+                    booking.getTimeTwo(),
                     sharedPreferencesManager.getEmail(),
                     booking.getId()
             );

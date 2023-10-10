@@ -8,6 +8,6 @@ import retrofit2.http.GET;
 public interface ReservationService {
 
     // get schedules route
-    @GET("api/v1/shedule")
+    @GET("api/Schedules")
     Call<ReservationResponse> getReservations();
 }

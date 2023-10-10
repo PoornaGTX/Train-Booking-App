@@ -7,28 +7,34 @@ import java.util.Map;
 
 public class BookingRequest {
 
-
-    private String _id;
+    private String scheduleID;
 
     private String nic;
     private String destination;
     private String startingPoint;
     private String date;
-    private String time;
+    private String arrivalTimeToEndStation;
+
+    private String departureTimeFromStartStation;
+
     private String userEmail;
 
     @SerializedName("availableDates")
-    private List<Map<String, String>> availableDates;
+    private AvailableDates availableDates;
 
     @SerializedName("availableTimes")
-    private List<Map<String, String>> availableTimes;
+    private AvailableTimes availableTimes;
 
-    public String getID() {
-        return _id;
+    public AvailableDates getAvailableDates() {
+        return availableDates;
     }
 
-    public void setID(String _id) {
-        this._id = _id;
+    public String getID() {
+        return scheduleID;
+    }
+
+    public void setID(String scheduleID) {
+        this.scheduleID = scheduleID;
     }
 
     public String getNIC() {
@@ -64,12 +70,21 @@ public class BookingRequest {
     }
 
     public String getTime() {
-        return time;
+        return arrivalTimeToEndStation;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(String arrivalTimeToEndStation) {
+        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
     }
+
+    public String getTimeTwo() {
+        return departureTimeFromStartStation;
+    }
+
+    public void setTimeTwo(String departureTimeFromStartStation) {
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
+    }
+
 
     public String getUserEmail() {
         return userEmail;
@@ -79,19 +94,17 @@ public class BookingRequest {
         this.userEmail = userEmail;
     }
 
-    public List<Map<String, String>> getAvailableDates() {
-        return availableDates;
-    }
-
-    public void setAvailableDates(List<Map<String, String>> availableDates) {
+    public void setAvailableDates(AvailableDates availableDates) {
         this.availableDates = availableDates;
     }
 
-    public List<Map<String, String>> getAvailableTimes() {
+    public AvailableTimes getAvailableTimes() {
         return availableTimes;
     }
 
-    public void setAvailableTimes(List<Map<String, String>> availableTimes) {
+    public void setAvailableTimes(AvailableTimes availableTimes) {
         this.availableTimes = availableTimes;
     }
+
+
 }
