@@ -25,13 +25,13 @@ public class Booking implements Serializable  {
     private String id;
 
     // Constructor
-    public Booking(String destination, String startingPoint, String date,String id,String arrivalTimeToEndStation,String departureTimeFromStartStation) {
+    public Booking(String destination, String startingPoint, String date,String id,String arrivalTimeToEndStation) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.arrivalTimeToEndStation = arrivalTimeToEndStation;
-        this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.date = date;
         this.id = id;
+
     }
 
     public String getId() {

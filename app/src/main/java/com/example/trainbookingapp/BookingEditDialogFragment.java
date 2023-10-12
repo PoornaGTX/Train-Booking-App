@@ -41,23 +41,19 @@ import retrofit2.Response;
 
 public class BookingEditDialogFragment extends DialogFragment {
     private Booking booking;
-
     private Button customSaveButton;
     private RadioGroup dateRadioGroup;
     private RadioGroup timeRadioGroup;
-
     private AlertDialog dialog;
-
     private TextView dateTextView;
     private TextView timeTextView;
-
     private UserBookingsFragment reservationFragment;
 
     private Handler handler;
 
 
     public BookingEditDialogFragment() {
-        // Required empty public constructor
+        // empty public constructor
     }
 
     public static BookingEditDialogFragment newInstance(Booking booking) {
@@ -100,11 +96,11 @@ public class BookingEditDialogFragment extends DialogFragment {
             booking = (Booking) getArguments().getSerializable("booking");
         }
 
-        // Define your custom buttons and set click listeners
+        // Define custom buttons and set click listeners
         customSaveButton = view.findViewById(R.id.customSaveButton);
         Button customCancelButton = view.findViewById(R.id.customCancelButton);
 
-        // Disable the "Save" button initially
+        // Disable the Save button initially
         customSaveButton.setEnabled(false);
 
         TextView startingPointTextView = view.findViewById(R.id.startingPointTextView);
@@ -167,15 +163,13 @@ public class BookingEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 handleCustomSaveButtonClick();
-//                dismiss();; // Implement this method
             }
         });
 
         customCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("dismiss", "dismiss:dismiss " );
-                dismiss(); // Implement this method
+                dismiss();
             }
         });
 
@@ -225,7 +219,7 @@ public class BookingEditDialogFragment extends DialogFragment {
         }
     }
 
-
+    //date selection handler
     private void setupDateSelectionListener(final TextView dateTextView) {
         dateRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -239,7 +233,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                     dateTextView.setText("Date: " + selectedDate);
                     dateTextView.setTextColor(Color.RED);
 
-                    // Update the updateRequest object immediately
+                    // Update the updateRequest object
                     updateRequest.setDate(selectedDate);
 
                     // Enable the save button
@@ -249,6 +243,7 @@ public class BookingEditDialogFragment extends DialogFragment {
         });
     }
 
+    //time selection handler
     private void setupTimeSelectionListener(final TextView timeTextView) {
         timeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -262,7 +257,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                     timeTextView.setText("Time: " + selectedTime);
                     timeTextView.setTextColor(Color.RED);
 
-                    // Update the updateRequest object immediately
+                    // Update the updateRequest object
                     updateRequest.setTime(selectedTime);
 
                     // Enable the save button
@@ -289,7 +284,7 @@ public class BookingEditDialogFragment extends DialogFragment {
         int selectedRadioButton_id = dateRadioGroup.getCheckedRadioButtonId();
 
         if (selectedRadioButtonId != -1 || selectedRadioButton_id != -1 ) {
-            // A radio button is selected, continue with save logic
+            // A radio button is selected, continue
             updateRequest.set_id(booking.getId());
             updateRequest.setDestination(booking.getDestination());
             updateRequest.setStartingPoint(booking.getStartingPoint());
@@ -303,6 +298,8 @@ public class BookingEditDialogFragment extends DialogFragment {
             }
 
             List<BookingUpdateOperation> updateOperations = new ArrayList<>();
+
+            //patch request refactoring the data
             updateOperations.add(new BookingUpdateOperation("date", updateRequest.getDate()));
             updateOperations.add(new BookingUpdateOperation("departureTimeFromStartStation", updateRequest.getTime()));
 
@@ -312,22 +309,21 @@ public class BookingEditDialogFragment extends DialogFragment {
                 @Override
                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                     if (response.isSuccessful()) {
-                        // Handle the successful response here
                         BookingResponse bookingResponse = response.body();
                         if (bookingResponse != null) {
+                            //success aler
                             showSuccessDialog();
                             if (getParentFragment() instanceof OnBookingUpdatedListener) {
                                 ((OnBookingUpdatedListener) getParentFragment()).onBookingUpdated();
                             }
                         }
                     } else {
-                        // Handle the error response here
                         if (response.errorBody() != null) {
                             try {
                                 JSONObject errorJson = new JSONObject(response.errorBody().string());
                                 String errorMsg = errorJson.getString("msg");
+                                //error alert
                                 showErrorDialog(errorMsg);
-                                Log.e("API Error", "Failed to update booking: " + errorMsg);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -375,7 +371,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                     dateTextView.setText("Date: " + selectedDate);
                     dateTextView.setTextColor(Color.RED);
 
-                    // Update the updateRequest object immediately
+                    // Update the updateRequest object
                     updateRequest.setDate(selectedDate);
 
                     // Enable the save button
@@ -403,7 +399,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                     timeTextView.setText("Time: " + selectedTime);
                     timeTextView.setTextColor(Color.RED);
 
-                    // Update the updateRequest object immediately
+                    // Update the updateRequest object
                     updateRequest.setTime(selectedTime);
 
                     // Enable the save button
@@ -415,10 +411,8 @@ public class BookingEditDialogFragment extends DialogFragment {
 
 
     private void showDateSelectionDialog() {
-        // Implement date selection logic here and update booking data
     }
 
     private void showTimeSelectionDialog() {
-        // Implement time selection logic here and update booking data
     }
 }

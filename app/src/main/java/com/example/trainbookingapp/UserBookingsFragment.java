@@ -85,6 +85,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
     }
 
 
+    //based on network connection update the UI
     private void fetchBookingData() {
         loadingProgressBar.setVisibility(View.GONE);
 
@@ -98,6 +99,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
         }
     }
 
+    //fetch data from remote server
     private void fetchBookingDataAndUpdateUI() {
         loadingProgressBar.setVisibility(View.VISIBLE);
 
@@ -109,61 +111,44 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 loadingProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
+
                     BookingResponse bookingResponse = response.body();
                     List<Booking> bookings = bookingResponse.getBookings();
 
                     recyclerView.setVisibility(View.VISIBLE);
                     noDataTextView.setVisibility(View.GONE);
+
+
                     if (bookings != null && !bookings.isEmpty()) {
                         for (Booking booking : bookings) {
-                            // Parse available dates
-//                            List<Map<String, String>> availableDatesList = booking.getAvailableDatesList();
-//                            List<String> availableDates = new ArrayList<>();
-
-//                            Map<String, String> availableDatesMap = new HashMap<>();
-//                            Map<String, String> availableTimesMap = new HashMap<>();
-
-
-//                            for (Map<String, String> dateMap : availableDatesList) {
-//                                for (String dateValue : dateMap.values()) {
-//                                    availableDates.add(dateValue);
-//                                }
-//                            }
-//
-//                            // Parse available times
-//                            List<Map<String, String>> availableTimesList = booking.getAvailableTimesList();
-//                            List<String> availableTimes = new ArrayList<>();
-//
-//                            for (Map<String, String> timeMap : availableTimesList) {
-//                                for (String timeValue : timeMap.values()) {
-//                                    availableTimes.add(timeValue);
-//                                }
-//                            }
-
+                            // Initialize data structures to store available dates
                             Map<String, String> availableDatesMap = new HashMap<>();
                             List<String> availableDates = new ArrayList<>();
+
                             for (int i = 1; i <= 3; i++) {
                                 String dateKey = "date" + i;
                                 String dateValue = booking.getAvailableDates().get(dateKey);
+                                // Check if the date is available (not null)
                                 if (dateValue != null) {
                                     availableDatesMap.put(dateKey, dateValue);
                                     availableDates.add(dateValue);
                                 }
                             }
 
-// Parse available times
+                            // Parse available times
                             Map<String, String> availableTimesMap = new HashMap<>();
                             List<String> availableTimes = new ArrayList<>();
                             for (int i = 1; i <= 3; i++) {
                                 String timeKey = "time" + i;
                                 String timeValue = booking.getAvailableTimes().get(timeKey);
+                                // Check if the time is available (not null)
                                 if (timeValue != null) {
                                     availableTimesMap.put(timeKey, timeValue);
                                     availableTimes.add(timeValue);
                                 }
                             }
 
-// Update the booking object with parsed available dates and times
+                            // Update the booking object with parsed available dates and times
                             booking.setAvailableDates(availableDatesMap);
                             booking.setAvailableTimes(availableTimesMap);
 
@@ -192,6 +177,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
         bookingApiClient.getUserBooking(userEmail, callback);
     }
 
+    //when device is offline get the data for sqlite local db
     private void fetchBookingsFromSQLiteAndUpdateUI() {
         List<BookingSQL> bookingSQLList = bookingNewDB.getAllBooking();
 
@@ -202,11 +188,9 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     bookingSQL.getDestination(),
                     bookingSQL.getStartingPoint(),
                     bookingSQL.getDate(),
-                    bookingSQL.getTimeTwo(),
-                    bookingSQL.getTime(),
-                    bookingSQL.get_id()
+                    bookingSQL.getId(),
+                    bookingSQL.getTime()
             );
-            booking.getTime();
             bookings.add(booking);
         }
 
@@ -245,7 +229,6 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
 
     @Override
     public void onBookingDeleted() {
-        Log.d("onBookingDeletedListener", "onBookingDeletedListener");
         fetchBookingDataAndUpdateUI();
     }
 

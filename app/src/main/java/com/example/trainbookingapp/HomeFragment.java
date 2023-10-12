@@ -146,6 +146,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    //fetch all Reservations
     private void fetchReservations() {
         loadingProgressBar.setVisibility(View.VISIBLE);
 

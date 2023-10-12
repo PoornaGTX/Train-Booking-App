@@ -56,7 +56,25 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        // Create a RegistrationRequestBody object with username, email, and password
+
+        //input validation
+        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || nic.isEmpty()) {
+            // alert to empty fields
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+            builder.setTitle("Error");
+            builder.setMessage("Please Provide All values ");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return;
+        }
+
+        // Create a RegistrationRequestBody object
         RegistrationRequestBody requestBody = new RegistrationRequestBody(fullName, nic, email, password);
 
         RegistrationApiClient registrationApiClient = new RegistrationApiClient();
@@ -83,18 +101,11 @@ public class RegisterActivity extends AppCompatActivity {
                             // if Registration was successful show success dialog,
                             showRegistrationStatusDialog(true, registrationMessage);
 
-                            // Redirect to the login activity
-                            new android.os.Handler().postDelayed(
-                                    new Runnable() {
-                                        public void run() {
-                                            // Redirect to the LoginActivity
-                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    },
-                                    3000
-                            );
+                            // Redirect to the LoginActivity
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+
                         } else {
                             // Handler for if registrationMessage is empty or null
                             showRegistrationStatusDialog(false, "Registration message is empty.");
@@ -105,21 +116,20 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             // get the error message from the error response
                             JSONObject errorJson = new JSONObject(response.errorBody().string());
-                            String errorMsg = errorJson.getString("msg");
+                            String errorMsg = errorJson.getString("registrationMessage");
                             showRegistrationStatusDialog(false, errorMsg);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else {
-                        // Log an error message if the response code indicates an error
-                        showRegistrationStatusDialog(false, "Error:"+ response.code());
+                        // Log error message
+                        showRegistrationStatusDialog(false, "Error:" + response.code());
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
-                showRegistrationStatusDialog(false, "Error:"+ t);
+                showRegistrationStatusDialog(false, "Error:" + t);
             }
         });
     }

@@ -20,7 +20,7 @@ public class BookingApiClient {
 
     private final BookingService bookingService;
 
-    private static final String BASE_URL = "https://f3cc-2a09-bac1-4360-00-279-9d.ngrok-free.app/";
+    private static final String BASE_URL = "https://a63f-2402-4000-20c2-707-bc9d-1d76-fa31-916e.ngrok-free.app/";
 
     public BookingApiClient() {
         // Initialize the Retrofit client and create the BookingService instance
@@ -34,6 +34,7 @@ public class BookingApiClient {
 
     // book train method
     public void bookTrain(BookingRequest bookingRequest, Callback<BookingResponse> callback) {
+        // API request to book a train
         Call<BookingResponse> call = bookingService.bookTrain(bookingRequest);
         call.enqueue(callback);
     }
@@ -48,6 +49,7 @@ public class BookingApiClient {
     }
 
     public void updateBooking(String bookingId, List<BookingUpdateOperation> updateOperations, Callback<BookingResponse> callback) {
+        // Create Gson instance
         Gson gson = new Gson();
         String jsonBody = gson.toJson(updateOperations);
 

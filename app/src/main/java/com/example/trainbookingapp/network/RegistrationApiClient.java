@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RegistrationApiClient {
 
     private final RegistrationService registrationService;
-    private static final String BASE_URL = "https://f3cc-2a09-bac1-4360-00-279-9d.ngrok-free.app/";
+    private static final String BASE_URL = "https://a63f-2402-4000-20c2-707-bc9d-1d76-fa31-916e.ngrok-free.app/";
 
     public RegistrationApiClient() {
 
@@ -46,7 +46,7 @@ public class RegistrationApiClient {
         // Create a Retrofit call for registration using RequestBody
         Call<RegistrationResponse> call = registrationService.register(requestBody);
 
-        // Enqueue the request for asynchronous execution, passing the provided callback
+        // Enqueue the request for asynchronous execution
         call.enqueue(callback);
     }
 }

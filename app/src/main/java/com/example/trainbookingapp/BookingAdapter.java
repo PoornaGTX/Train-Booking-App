@@ -84,8 +84,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.destinationTextView.setText("Destination : " + booking.getDestination());
         holder.startingTextView.setText("From: " + booking.getStartingPoint());
         holder.dateTextView.setText("Date: " + booking.getDate());
-        holder.timeTextView.setText("Time: " + booking.getTimeTwo());
-
+        holder.timeTextView.setText("Timelk: " + booking.getTime());
 
         // If the network connection not available
         if (!NetworkUtils.isNetworkConnected(context)) {
@@ -131,7 +130,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     if (daysDifference >= 3) {
                         showDeleteConfirmationDialog(booking);
                     } else {
-                        showDeleteStatusDialog(false, "Booking can only be canceled if it's at least 3 days in the future.");
+                        showDeleteStatusDialog(false, "Booking can only be canceled with a minimum of 3 days before the booked date.");
                     }
                 } catch (ParseException | java.text.ParseException e) {
                     e.printStackTrace();
@@ -170,6 +169,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                         long timeDifferenceInMillis = bookingDateCalendar.getTimeInMillis() - currentDate.getTimeInMillis();
                         long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
+                        //check the booking update condition
                         if (daysDifference >= 5) {
 
                             // Call the listener's method to handle the "Edit" button click
@@ -180,7 +180,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                             showEditDialog(booking);
                         } else {
                             // provide error alert for user if the booking cannot be edited
-                            showEditStatusDialog(false, "Booking can only be edited if it's at least 5 days in the future.");
+                            showEditStatusDialog(false, "Booking edits must be made at least 5 days in advance.");
                         }
                     } catch (ParseException | java.text.ParseException e) {
                         e.printStackTrace();
@@ -271,8 +271,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         dialog.show();
     }
 
-
-
+    //edit dialog
     private void showEditDialog(Booking booking) {
         if (onItemClickListener != null && fragment != null) {
             // Create and show the dialog fragment using getSupportFragmentManager
@@ -287,6 +286,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     }
 
     public class BookingViewHolder extends RecyclerView.ViewHolder {
+        // Views for displaying booking information
         TextView destinationTextView;
         TextView startingTextView;
         TextView timeTextView;
@@ -297,6 +297,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
         public BookingViewHolder(View itemView) {
             super(itemView);
+            // Initialize the views
             destinationTextView = itemView.findViewById(R.id.destinationTextView1);
             startingTextView = itemView.findViewById(R.id.startingPointTextView1);
             dateTextView = itemView.findViewById(R.id.dateTextView1);
@@ -306,6 +307,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         }
     }
 
+    // Listener for handling item click events
     public interface OnItemClickListener {
         void onEditClick(Booking booking);
         void onCloseClick(Booking booking);
@@ -315,6 +317,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         this.onItemClickListener = listener;
     }
 
+    // Set the list of bookings
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
         notifyDataSetChanged();

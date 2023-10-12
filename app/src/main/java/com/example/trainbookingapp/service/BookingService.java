@@ -31,7 +31,7 @@ public interface BookingService {
             @Body RequestBody requestBody
     );
 
-    //cancel booking
+    //cancel booking route
     @DELETE("/api/Bookings/{id}")
     Call<Void> deleteBooking(@Path("id") String id);
 }

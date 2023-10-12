@@ -17,6 +17,8 @@ import com.example.trainbookingapp.model.LoginResponse;
 import com.example.trainbookingapp.network.LoginApiClient;
 import com.example.trainbookingapp.utility.SharedPreferencesManager;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         String savedEmail = sharedPreferencesManager.getEmail();
 
         if (savedUsername != null && savedEmail != null) {
-            // The user is already logged in, navigate to the main activity
+            // user is already logged in, navigate to the main activity
             navigateToMainActivity();
         }
     }
@@ -59,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
+
+        //input validation
         if(email.isEmpty() || password.isEmpty()){
             // alert to empty fields
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -75,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Create LoginRequestBody object with email and password
+        // Create LoginRequestBody object
         LoginRequestBody requestBody = new LoginRequestBody(email, password);
 
         // Create an instance of LoginApiClient to make the login API request
@@ -110,7 +114,19 @@ public class LoginActivity extends AppCompatActivity {
                         );
                     }
                 } else {
-                    showLoginStatusDialog(false, LoginnError);
+                    if (response.errorBody() != null) {
+                        try {
+                            // get the error message from the error response
+                            JSONObject errorJson = new JSONObject(response.errorBody().string());
+                            String errorMsg = errorJson.getString("registrationMessage");
+                            showLoginStatusDialog(false, errorMsg);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // Log an error message if the response code indicates an error
+                        showLoginStatusDialog(false, LoginnError);
+                    }
                 }
             }
 
@@ -145,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-                // Check, if the login was successful before navigating to MainActivity
+                // Check,if the login was successful before navigating to MainActivity
                 if (isSuccess) {
                     navigateToMainActivity();
                 }

@@ -111,7 +111,8 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookTrain(); // Call a method to send the booking request
+                // Call a method to send the booking request
+                bookTrain();
             }
         });
 
@@ -177,7 +178,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         SharedPreferencesManager sharedPreferencesManager;
         sharedPreferencesManager = new SharedPreferencesManager(requireContext());
 
-        String nic =sharedPreferencesManager.getNIC();
+        String nic = sharedPreferencesManager.getNIC();
 
         BookingRequest request = new BookingRequest();
         request.setDestination(destination);
@@ -187,7 +188,6 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         request.setTimeTwo(time2);
         request.setID(sheduleID);
         request.setNIC(nic);
-
 
         AvailableDates availableDates = new AvailableDates();
         AvailableTimes availableTimes = new AvailableTimes();
@@ -205,9 +205,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         request.setAvailableDates(availableDates);
         request.setAvailableTimes(availableTimes);
 
-
         // get user email from sharedPreference
-        sharedPreferencesManager = new SharedPreferencesManager(requireContext());
         String userEmail = sharedPreferencesManager.getEmail();
 
         // Set the user email in the request
@@ -229,9 +227,9 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
                     } else {
                         if (response.errorBody() != null) {
                             try {
+                                //handle the error body
                                 JSONObject errorJson = new JSONObject(response.errorBody().string());
                                 String errorMsg = errorJson.getString("msg");
-                                Log.d("API Response", "Success: " + response.body());
                                 showErrorDialog(errorMsg);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -248,7 +246,6 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
             public void onFailure(Call<BookingResponse> call, Throwable t) {
                 if (context != null) {
                     Toast.makeText(context, "Booking failed. Please check your network connection.", Toast.LENGTH_SHORT).show();
-                    Log.e("API Error", "API request failed", t);
                     dismiss();
                 }
             }

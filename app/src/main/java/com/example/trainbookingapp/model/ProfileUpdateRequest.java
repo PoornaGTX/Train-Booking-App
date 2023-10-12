@@ -10,9 +10,10 @@ public class ProfileUpdateRequest {
 
     public  ProfileUpdateRequest(){}
 
-    public ProfileUpdateRequest(String email,String fullName) {
+    public ProfileUpdateRequest(String email,String fullName,String nic) {
         this.fullName = fullName;
         this.email=email;
+        this.nic =nic;
     }
 
     public String getFullName() {

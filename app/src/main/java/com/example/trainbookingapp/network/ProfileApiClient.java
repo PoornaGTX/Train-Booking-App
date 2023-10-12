@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileApiClient {
 
-    private static final String BASE_URL = "https://f3cc-2a09-bac1-4360-00-279-9d.ngrok-free.app/";
+    private static final String BASE_URL = "https://a63f-2402-4000-20c2-707-bc9d-1d76-fa31-916e.ngrok-free.app/";
     private ProfileService profileService;
 
     // Constructor for initializing the ProfileApiClient
@@ -28,6 +28,7 @@ public class ProfileApiClient {
         return profileService;
     }
 
+    //method to deactivate the account
     public Call<Void> deactivateAccount(String userNIC, ProfileUpdateRequest request) {
         return profileService.deactivateAccount(userNIC, request);
     }

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import com.example.trainbookingapp.model.ProfileUpdateRequest;
 import com.example.trainbookingapp.network.ProfileApiClient;
 import com.example.trainbookingapp.service.ProfileService;
+import com.example.trainbookingapp.utility.NetworkUtils;
 import com.example.trainbookingapp.utility.SharedPreferencesManager;
 
 import retrofit2.Call;
@@ -64,12 +65,19 @@ public class ProfileFragment extends Fragment {
         nicTextView.setText(nic);
         emailTextView.setText(email);
 
+        //check the network connection
+        if(!NetworkUtils.isNetworkConnected(requireContext())){
+            editProfileButton.setEnabled(false);
+            disableButton.setEnabled(false);
+        }
+
+
         // handler for edit button
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Show edit profile dialog
-                showEditProfileDialog(fullName,email);
+                showEditProfileDialog(fullName,nic,email);
             }
         });
 
@@ -92,7 +100,8 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void showEditProfileDialog(String currentFullName ,String email) {
+    //edit dialog
+    private void showEditProfileDialog(String currentFullName ,String nic,String email) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_profile, null);
         builder.setView(dialogView);
@@ -108,7 +117,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 String newFullName = fullNameEditText.getText().toString();
                 // Call API to update user's full name
-                updateFullName(newFullName,email);
+                updateFullName(newFullName,nic,email);
             }
         });
 
@@ -124,7 +133,7 @@ public class ProfileFragment extends Fragment {
         dialog.show();
     }
 
-    private void updateFullName(String newFullName,String email) {
+    private void updateFullName(String newFullName,String nic,String email) {
         // Update the UI with the new full name if successful
         fullNameTextView.setText(newFullName);
 
@@ -142,11 +151,13 @@ public class ProfileFragment extends Fragment {
         // Get the updated full name from the user input
         String updatedFullName = newFullName;
 
+
         // Create the update request
-        ProfileUpdateRequest request = new ProfileUpdateRequest(useremail,updatedFullName);
+        ProfileUpdateRequest request = new ProfileUpdateRequest(useremail,updatedFullName,nic);
+
 
         // Make the API call to update the full name
-        Call<Void> call = profileService.updateFullName(request);
+        Call<Void> call = profileService.updateFullName(nic,request);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -163,6 +174,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    //success alert
     private void showProfileUpdateStatusDialog(boolean isSuccess, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle(isSuccess ? "Success" : "Error");
@@ -194,8 +206,6 @@ public class ProfileFragment extends Fragment {
         // Get the user NIC from SharedPreferences
         String userNIC = sharedPreferencesManager.getNIC();
 
-        Log.e("API Error", "userNIC: "+  userNIC);
-
         // Create an instance of ProfileApiClient
         ProfileApiClient profileApiClient = new ProfileApiClient();
 
@@ -221,6 +231,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    //deactivation confirmation dialog
     private void showDeactivationConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Deactivate Account");
@@ -265,6 +276,7 @@ public class ProfileFragment extends Fragment {
         dialog.show();
     }
 
+    //deactivation error dialog
     private void showDeactivationErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Deactivation Error");

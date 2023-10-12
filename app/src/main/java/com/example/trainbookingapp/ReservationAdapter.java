@@ -119,6 +119,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                         long timeDifferenceInMillis = bookingDateCalendar.getTimeInMillis() - currentDate.getTimeInMillis();
                         long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
+                        //booking date condition check
                         if (daysDifference >= 30) {
                             // Check if the fragment reference is not null
                             if (fragment != null) {

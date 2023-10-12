@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class BookingSQL {
 
     @PrimaryKey(autoGenerate = true)
-    private long id; //auto-generated id
+    private long dbID; //auto-generated id
     private String destination;
     private String startingPoint;
     private String date;
@@ -18,34 +18,34 @@ public class BookingSQL {
     private String ticketPrice;
     private String userEmail;
 
-    private  String _id;
+    private  String id;
 
     public BookingSQL(){}
 
     // Constructor
-    public BookingSQL(String destination, String startingPoint, String date, String userEmail,String _id,String arrivalTimeToEndStation,String departureTimeFromStartStation) {
+    public BookingSQL(String destination, String startingPoint, String date, String arrivalTimeToEndStation,String departureTimeFromStartStation,String userEmail,String id) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
         this.arrivalTimeToEndStation = arrivalTimeToEndStation;
         this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.userEmail = userEmail;
-        this._id = _id;
+        this.id = id;
     }
-    public long getId() {
+    public long getdbID() {
+        return dbID;
+    }
+
+    public void setdbID(long dbID) {
+        this.dbID = dbID;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = String.valueOf(_id);
     }
 
     public String getDestination() {
