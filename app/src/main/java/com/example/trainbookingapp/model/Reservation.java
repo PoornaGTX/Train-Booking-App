@@ -12,9 +12,7 @@ public class Reservation {
     private String startingPoint;
     private String date;
     private String arrivalTimeToEndStation;
-
     private String departureTimeFromStartStation;
-
     private String ticketPrice;
 
 

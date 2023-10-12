@@ -71,7 +71,6 @@ public class ProfileFragment extends Fragment {
             disableButton.setEnabled(false);
         }
 
-
         // handler for edit button
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override

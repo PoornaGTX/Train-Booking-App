@@ -12,9 +12,7 @@ public class Booking implements Serializable  {
     private String startingPoint;
     private String date;
     private String arrivalTimeToEndStation;
-
     private String departureTimeFromStartStation;
-
     private String ticketPrice;
     private String userEmail;
     @SerializedName("availableDates")

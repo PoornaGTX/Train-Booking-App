@@ -8,9 +8,7 @@ public class SharedPreferencesManager {
     private static final String PREF_NAME = "MyAppPreferences";
     private static final String KEY_FULLNAME = "fullName";
     private static final String KEY_EMAIL = "email";
-
     private static final String KEY_NIC = "nic";
-
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
@@ -25,7 +23,6 @@ public class SharedPreferencesManager {
         editor.putString(KEY_FULLNAME, fullName);
         editor.putString(KEY_NIC, nic);
         editor.putString(KEY_EMAIL, email);
-        // Add other properties as needed
         editor.apply();
     }
 

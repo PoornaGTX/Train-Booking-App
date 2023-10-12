@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface ReservationService {
 
-    // get schedules route
+    //get schedules route
     @GET("api/Schedules")
     Call<ReservationResponse> getReservations();
 }

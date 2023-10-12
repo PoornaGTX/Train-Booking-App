@@ -8,15 +8,12 @@ import java.util.Map;
 public class BookingRequest {
 
     private String scheduleID;
-
     private String nic;
     private String destination;
     private String startingPoint;
     private String date;
     private String arrivalTimeToEndStation;
-
     private String departureTimeFromStartStation;
-
     private String userEmail;
 
     @SerializedName("availableDates")
@@ -105,6 +102,5 @@ public class BookingRequest {
     public void setAvailableTimes(AvailableTimes availableTimes) {
         this.availableTimes = availableTimes;
     }
-
 
 }

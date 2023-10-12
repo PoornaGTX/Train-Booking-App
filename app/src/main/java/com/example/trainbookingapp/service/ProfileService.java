@@ -16,6 +16,7 @@ public interface ProfileService {
     @PUT("api/Users/{nic}")
     Call<Void> updateFullName(@Path("nic") String nic, @Body ProfileUpdateRequest request);
 
+    //deactivate account route
     @PUT("api/Users/isActive/")
     Call<Void> deactivateAccount(@Query("nic") String userNIC, @Body ProfileUpdateRequest request);
 }

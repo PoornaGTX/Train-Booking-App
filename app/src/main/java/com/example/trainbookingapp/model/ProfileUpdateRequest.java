@@ -3,9 +3,7 @@ package com.example.trainbookingapp.model;
 public class ProfileUpdateRequest {
     private String fullName;
     private String email;
-
     private String nic;
-
     private boolean isActivate;
 
     public  ProfileUpdateRequest(){}
@@ -35,7 +33,5 @@ public class ProfileUpdateRequest {
     public String getNIC() {
         return nic;
     }
-
-
 
 }
