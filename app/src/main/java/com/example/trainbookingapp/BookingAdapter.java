@@ -84,7 +84,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.destinationTextView.setText("Destination : " + booking.getDestination());
         holder.startingTextView.setText("From: " + booking.getStartingPoint());
         holder.dateTextView.setText("Date: " + booking.getDate());
-        holder.timeTextView.setText("Timelk: " + booking.getTime());
+        holder.timeTextView.setText("Time: " + booking.getTime());
 
         // If the network connection not available
         if (!NetworkUtils.isNetworkConnected(context)) {
@@ -172,7 +172,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                         //check the booking update condition
                         if (daysDifference >= 5) {
 
-                            // Call the listener's method to handle the "Edit" button click
+                            // Call the listener's method to handle the edit button click
                             if (onItemClickListener != null) {
                                 onItemClickListener.onEditClick(booking);
                             }

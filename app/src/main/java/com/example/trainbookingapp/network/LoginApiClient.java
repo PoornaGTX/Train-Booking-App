@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginApiClient {
 
     private final LoginService loginService;
-    private static final String BASE_URL = "https://a63f-2402-4000-20c2-707-bc9d-1d76-fa31-916e.ngrok-free.app/";
+    private static final String BASE_URL = "http://thameera-001-site1.itempurl.com/";
 
     // Constructor to initialize the LoginApiClient
     public LoginApiClient() {
@@ -42,7 +42,7 @@ public class LoginApiClient {
         // Create a Retrofit call for the login request using RequestBody
         Call<LoginResponse> call = loginService.login(requestBody);
 
-        // Enqueue the request for asynchronous execution, passing the provided callback
+        // Enqueue the request for asynchronous execution
         call.enqueue(callback);
     }
 }

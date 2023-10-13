@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // start fragmentTransaction
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        // replace the container by Home fragment
+        // Home fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, home).commit();
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

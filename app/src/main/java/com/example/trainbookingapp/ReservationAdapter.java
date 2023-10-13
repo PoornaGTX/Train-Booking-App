@@ -68,7 +68,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             holder.dateTextView.setText("Date: " + reservation.getDate());
             holder.timeTextView.setText("Departure: " + reservation.getTime());
             holder.arrivalTimeTextView.setText("Arrival: " + reservation.getTimeTwo());
-            holder.ticketPrice.setText("Ticket Price: Rs."+ reservation.getticketPrice());
+            holder.ticketPrice.setText("Ticket Price: Rs."+ reservation.getticketPrice()+"0");
 
             holder.bookButton.setOnClickListener(new View.OnClickListener() {
                 @Override

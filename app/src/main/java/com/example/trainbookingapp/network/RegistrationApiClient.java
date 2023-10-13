@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RegistrationApiClient {
 
     private final RegistrationService registrationService;
-    private static final String BASE_URL = "https://a63f-2402-4000-20c2-707-bc9d-1d76-fa31-916e.ngrok-free.app/";
+    private static final String BASE_URL = "http://thameera-001-site1.itempurl.com/";
 
     public RegistrationApiClient() {
 

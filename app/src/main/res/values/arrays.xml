@@ -5,6 +5,8 @@
         <item>Kandy</item>
         <item>Colombo</item>
         <item>Jaffna</item>
+        <item>Anuradhapura</item>
+        <item>Mathara</item>
     </string-array>
 
     <string-array name="destinations">
@@ -12,5 +14,7 @@
         <item>Kandy</item>
         <item>Colombo</item>
         <item>Jaffna</item>
+        <item>Anuradhapura</item>
+        <item>Mathara</item>
     </string-array>
 </resources>

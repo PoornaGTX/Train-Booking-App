@@ -48,7 +48,6 @@ public class BookingEditDialogFragment extends DialogFragment {
     private TextView dateTextView;
     private TextView timeTextView;
     private UserBookingsFragment reservationFragment;
-
     private Handler handler;
 
 
@@ -299,6 +298,8 @@ public class BookingEditDialogFragment extends DialogFragment {
 
             List<BookingUpdateOperation> updateOperations = new ArrayList<>();
 
+            Log.d("TAG", "handleCustomSaveButtonClick: "+ updateRequest.getTime());
+
             //patch request refactoring the data
             updateOperations.add(new BookingUpdateOperation("date", updateRequest.getDate()));
             updateOperations.add(new BookingUpdateOperation("departureTimeFromStartStation", updateRequest.getTime()));
@@ -311,7 +312,7 @@ public class BookingEditDialogFragment extends DialogFragment {
                     if (response.isSuccessful()) {
                         BookingResponse bookingResponse = response.body();
                         if (bookingResponse != null) {
-                            //success aler
+                            //success alert
                             showSuccessDialog();
                             if (getParentFragment() instanceof OnBookingUpdatedListener) {
                                 ((OnBookingUpdatedListener) getParentFragment()).onBookingUpdated();

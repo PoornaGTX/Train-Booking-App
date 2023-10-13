@@ -5,10 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public class AvailableTimes {
     @SerializedName("time1")
     private String time1;
-
     @SerializedName("time2")
     private String time2;
-
     @SerializedName("time3")
     private String time3;
 

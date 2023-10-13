@@ -46,9 +46,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     private String startingPoint;
     private String date;
     private String time;
-
     private String time2;
-
     private  String sheduleID;
     private List<String> selectedAvailableDates;
     private List<String> selectedAvailableTimes;
