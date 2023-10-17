@@ -89,12 +89,17 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.destinationTextView.setText("Destination : " + booking.getDestination());
         holder.startingTextView.setText("From: " + booking.getStartingPoint());
         holder.dateTextView.setText("Date: " + booking.getDate());
-        holder.timeTextView.setText("Time: " + booking.getTime());
+        holder.timeTextView.setText("Time: " + booking.getTimeTwo());
+        holder.trainNameTextView.setText("Train: "+ booking.getName());
+        holder.ticketPriceTextView.setText("Ticket: Rs." + booking.getTicketPrice()+"0");
+
 
         // If the network connection not available
         if (!NetworkUtils.isNetworkConnected(context)) {
             holder.closeButton.setEnabled(false);
             holder.editButton.setEnabled(false);
+//            holder.trainNameTextView.setVisibility(View.INVISIBLE);
+//            holder.ticketPriceTextView.setVisibility(View.INVISIBLE);
 
             int disabledButtonColor = ContextCompat.getColor(context, R.color.disabled_button_color);
             holder.closeButton.setBackgroundColor(disabledButtonColor);
@@ -132,13 +137,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
                     // check the booking cancel condition
-                    if (daysDifference >= 0) {
+                    if (daysDifference >= 5) {
                         showDeleteConfirmationDialog(booking);
                         //delete booking from local db
                         bookingNewDB.deleteBooking(booking.getScheduleID());
 
                     } else {
-                        showDeleteStatusDialog(false, "Booking can only be canceled with a minimum of 3 days before the booked date.");
+                        showDeleteStatusDialog(false, "Booking can only be canceled with a minimum of 5 days before the booked date.");
                     }
                 } catch (ParseException | java.text.ParseException e) {
                     e.printStackTrace();
@@ -299,6 +304,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         TextView startingTextView;
         TextView timeTextView;
         TextView dateTextView;
+        TextView trainNameTextView;
+        TextView ticketPriceTextView;
         Button editButton;
         Button closeButton;
 
@@ -311,6 +318,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             timeTextView = itemView.findViewById(R.id.timeTextView1);
             editButton = itemView.findViewById(R.id.editButton);
             closeButton = itemView.findViewById(R.id.closeButton);
+            trainNameTextView = itemView.findViewById(R.id.trainNameTextView1);
+            ticketPriceTextView = itemView.findViewById(R.id.ticketPriceTextView1);
         }
     }
 

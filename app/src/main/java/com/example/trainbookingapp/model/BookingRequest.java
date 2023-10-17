@@ -15,6 +15,9 @@ public class BookingRequest {
     private String arrivalTimeToEndStation;
     private String departureTimeFromStartStation;
     private String userEmail;
+    private String ticketPrice;
+    private String name;
+
 
     @SerializedName("availableDates")
     private AvailableDates availableDates;
@@ -82,6 +85,21 @@ public class BookingRequest {
         this.departureTimeFromStartStation = departureTimeFromStartStation;
     }
 
+    public String getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(String ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getUserEmail() {
         return userEmail;

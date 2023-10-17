@@ -66,6 +66,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     private List<String> selectedAvailableDates;
     private List<String> selectedAvailableTimes;
     private Handler handler;
+    private String ticketPrice;
 
     // Constructor to initialize the selected available dates and times
     public BookingConfirmationDialogFragment() {
@@ -78,7 +79,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     }
 
     // Method to set reservation details
-    public void setReservationDetails(String destination, String startingPoint, String date, String time, String time2, String sheduleID, String name) {
+    public void setReservationDetails(String destination, String startingPoint, String date, String time, String time2, String sheduleID, String name,String ticketPrice) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
@@ -86,6 +87,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         this.time2 = time2;
         this.sheduleID = sheduleID;
         this.name = name;
+        this.ticketPrice = ticketPrice;
     }
 
 
@@ -112,6 +114,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         TextView dateTextView = view.findViewById(R.id.dateTextView);
         TextView timeTextView = view.findViewById(R.id.timeTextView);
         TextView trainTextView = view.findViewById(R.id.trainTextView);
+        TextView ticketTextView = view.findViewById(R.id.ticketpriceTextView);
 
 
         startingTextView.setText("Starting Station: " + startingPoint);
@@ -119,6 +122,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         dateTextView.setText("Date: " + date);
         timeTextView.setText("Time: " + time);
         trainTextView.setText("Train: " + name);
+        ticketTextView.setText("Ticket price: "+ ticketPrice+"0");
 
         // Initialize buttons and set click listeners
         Button confirmButton = view.findViewById(R.id.confirmButton);
@@ -236,6 +240,9 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         request.setTimeTwo(time2);
         request.setID(sheduleID);
         request.setNIC(nic);
+        request.setTicketPrice(ticketPrice);
+        request.setName(name);
+
 
         AvailableDates availableDates = new AvailableDates();
         AvailableTimes availableTimes = new AvailableTimes();

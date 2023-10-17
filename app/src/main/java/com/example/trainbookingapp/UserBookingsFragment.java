@@ -165,6 +165,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                         noDataTextView.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    noDataTextView.setVisibility(View.VISIBLE);
                     Log.d("error", "error");
                 }
             }
@@ -190,7 +191,9 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     bookingSQL.getStartingPoint(),
                     bookingSQL.getDate(),
                     bookingSQL.getId(),
-                    bookingSQL.getTime()
+                    bookingSQL.getTimeTwo(),
+                    bookingSQL.getName(),
+                    bookingSQL.getTicketPrice()
             );
             bookings.add(booking);
         }
@@ -213,7 +216,6 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
 
         // Create a BookingSQL object from the Booking data
         if (!isBookingExists) {
-            Log.d("TAG", "insertBookingToDatabase: "+booking.getScheduleID());
             // Create a BookingSQL object from the Booking data
             BookingSQL bookingSQL = new BookingSQL(
                     booking.getDestination(),
@@ -222,7 +224,9 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     booking.getTime(),
                     booking.getTimeTwo(),
                     sharedPreferencesManager.getEmail(),
-                    booking.getScheduleID()
+                    booking.getScheduleID(),
+                    booking.getName(),
+                    booking.getTicketPrice()
             );
             // Insert the BookingSQL object into the SQLite database
             bookingNewDB.insertBooking(bookingSQL);

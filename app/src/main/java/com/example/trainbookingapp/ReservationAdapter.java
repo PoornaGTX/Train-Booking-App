@@ -124,7 +124,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                         long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
                         //booking date condition check
-                        if (daysDifference >= 0) {
+                        if (daysDifference >= 30) {
                             // Check if the fragment reference is not null
                             if (fragment != null) {
                                 // Create and show the booking confirmation dialog with reservation details
@@ -136,7 +136,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                                         selectedReservation.getTime(),
                                         selectedReservation.getTimeTwo(),
                                         selectedReservation.getID(),
-                                        selectedReservation.getName()
+                                        selectedReservation.getName(),
+                                        selectedReservation.getticketPrice()
                                 );
                                 dialogFragment.show(fragment.requireActivity().getSupportFragmentManager(), "BookingConfirmationDialog");
                             }

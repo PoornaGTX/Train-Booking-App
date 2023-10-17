@@ -49,8 +49,8 @@ public class LoginActivity extends AppCompatActivity {
 
         String savedEmail = sharedPreferencesManager.getEmail();
 
+        // user is already logged in, navigate to the main activity
         if (savedUsername != null && savedEmail != null) {
-            // user is already logged in, navigate to the main activity
             navigateToMainActivity();
         }
     }

@@ -15,6 +15,9 @@ public class Booking implements Serializable  {
     private String departureTimeFromStartStation;
     private String ticketPrice;
     private String userEmail;
+    private String name;
+
+
     @SerializedName("availableDates")
     private Map<String, String> availableDates;
 
@@ -24,12 +27,14 @@ public class Booking implements Serializable  {
     private String scheduleID;
 
     // Constructor
-    public Booking(String destination, String startingPoint, String date,String scheduleID,String arrivalTimeToEndStation) {
+    public Booking(String destination, String startingPoint, String date,String scheduleID,String departureTimeFromStartStation,String name,String ticketPrice ) {
         this.destination = destination;
         this.startingPoint = startingPoint;
-        this.arrivalTimeToEndStation = arrivalTimeToEndStation;
+        this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.date = date;
         this.scheduleID = scheduleID;
+        this.name =name;
+        this.ticketPrice=ticketPrice;
 
     }
 
@@ -90,12 +95,20 @@ public class Booking implements Serializable  {
         this.departureTimeFromStartStation = departureTimeFromStartStation;
     }
 
-    public String getticketPrice() {
+    public String getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setticketPrice(String ticketPrice) {
+    public void setTicketPrice(String ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.ticketPrice = name;
     }
 
     public String getUserEmail() {

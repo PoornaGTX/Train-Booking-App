@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BookingNewDB extends SQLiteOpenHelper {
 
-    private static final int VERSION = 33; //version
+    private static final int VERSION = 35; //version
     private static final String DB_NAME = "booking_db"; //database name
     public BookingNewDB(Context context) {
         super(context,DB_NAME, null, VERSION);
@@ -31,7 +31,9 @@ public class BookingNewDB extends SQLiteOpenHelper {
                         DBMaster.Book.COLUMN_NAME_DESTNATION + " TEXT," +
                         DBMaster.Book.COLUMN_NAME_EMAIL + " TEXT," +
                         DBMaster.Book.COLUMN_NAME_DATE + " TEXT," +
-                        DBMaster.Book.COLUMN_NAME_TIME + " TEXT)";
+                        DBMaster.Book.COLUMN_NAME_TIME + " TEXT,"+
+                        DBMaster.Book.COLUMN_NAME_TRAIN + " TEXT,"+
+                        DBMaster.Book.COLUMN_NAME_TICKETPRICE + " TEXT)";
         sqLiteDatabase.execSQL(SQL_CREATE_USER_ENTRIES);
 
     }
@@ -57,6 +59,8 @@ public class BookingNewDB extends SQLiteOpenHelper {
         values.put(DBMaster.Book.COLUMN_NAME_DATE, booking.getDate());
         values.put(DBMaster.Book.COLUMN_NAME_TIME, booking.getTime());
         values.put(DBMaster.Book.COLUMN_NAME_EMAIL, booking.getUserEmail());
+        values.put(DBMaster.Book.COLUMN_NAME_TRAIN, booking.getTicketPrice());
+        values.put(DBMaster.Book.COLUMN_NAME_TICKETPRICE, booking.getName());
 
         long newRowId= db.insert(DBMaster.Book.TABLE_NAME1,null,values);
         if (newRowId>=1)
@@ -86,6 +90,9 @@ public class BookingNewDB extends SQLiteOpenHelper {
                 book.setTime(cursor.getString(6));
                 book.setDate(cursor.getString(5));
                 book.setTimeTwo(cursor.getString(6));
+                book.setTicketPrice(cursor.getString(7));
+                book.setName(cursor.getString(8));
+
 
                 booking.add(book);
             }while (cursor.moveToNext());

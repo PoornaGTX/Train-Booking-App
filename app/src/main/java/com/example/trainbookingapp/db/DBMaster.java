@@ -17,5 +17,9 @@ public class DBMaster {
         public static final String COLUMN_NAME_TIME="time";
         public static final String COLUMN_NAME_EMAIL="userEmail";
 
+        public static final String COLUMN_NAME_TRAIN="name";
+
+        public static final String COLUMN_NAME_TICKETPRICE="ticketPrice";
+
     }
 }

@@ -110,7 +110,7 @@ public class BookingEditDialogFragment extends DialogFragment {
 
         // Set text for date and time
         dateTextView.setText("Date: " + booking.getDate());
-        timeTextView.setText("Time: " + booking.getTime());
+        timeTextView.setText("Time: " + booking.getTimeTwo());
 
 
         TextView dateTextView = view.findViewById(R.id.dateTextView);

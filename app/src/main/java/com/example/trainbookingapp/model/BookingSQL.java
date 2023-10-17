@@ -17,13 +17,13 @@ public class BookingSQL {
 
     private String ticketPrice;
     private String userEmail;
-
     private  String id;
+    private String name;
 
     public BookingSQL(){}
 
     // Constructor
-    public BookingSQL(String destination, String startingPoint, String date, String arrivalTimeToEndStation,String departureTimeFromStartStation,String userEmail,String id) {
+    public BookingSQL(String destination, String startingPoint, String date, String arrivalTimeToEndStation,String departureTimeFromStartStation,String userEmail,String id,String name,String ticketPrice) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
@@ -31,6 +31,8 @@ public class BookingSQL {
         this.departureTimeFromStartStation = departureTimeFromStartStation;
         this.userEmail = userEmail;
         this.id = id;
+        this.name=name;
+        this.ticketPrice=ticketPrice;
     }
     public long getdbID() {
         return dbID;
@@ -86,6 +88,22 @@ public class BookingSQL {
 
     public void setTimeTwo(String departureTimeFromStartStation) {
         this.departureTimeFromStartStation = departureTimeFromStartStation;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(String ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public String getUserEmail() {
