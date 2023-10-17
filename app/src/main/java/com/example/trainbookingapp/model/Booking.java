@@ -21,15 +21,24 @@ public class Booking implements Serializable  {
     @SerializedName("availableTimes")
     private Map<String, String> availableTimes;
     private String id;
+    private String scheduleID;
 
     // Constructor
-    public Booking(String destination, String startingPoint, String date,String id,String arrivalTimeToEndStation) {
+    public Booking(String destination, String startingPoint, String date,String scheduleID,String arrivalTimeToEndStation) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.arrivalTimeToEndStation = arrivalTimeToEndStation;
         this.date = date;
-        this.id = id;
+        this.scheduleID = scheduleID;
 
+    }
+
+    public String getScheduleID() {
+        return scheduleID;
+    }
+
+    public void setScheduleID(String sheduleID) {
+        this.scheduleID = scheduleID;
     }
 
     public String getId() {
@@ -39,6 +48,7 @@ public class Booking implements Serializable  {
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getDestination() {
         return destination;

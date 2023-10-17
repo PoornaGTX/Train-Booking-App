@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BookingNewDB extends SQLiteOpenHelper {
 
-    private static final int VERSION = 30; //version
+    private static final int VERSION = 33; //version
     private static final String DB_NAME = "booking_db"; //database name
     public BookingNewDB(Context context) {
         super(context,DB_NAME, null, VERSION);
@@ -105,5 +105,15 @@ public class BookingNewDB extends SQLiteOpenHelper {
 
         cursor.close();
         return exists;
+    }
+
+    //delete booking
+    public void deleteBooking(String id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.delete(DBMaster.Book.TABLE_NAME1, DBMaster.Book.COLUMN_DBID + " LIKE ?",new String[]{id});
+        db.close();
+
     }
 }

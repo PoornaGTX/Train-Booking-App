@@ -66,9 +66,13 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             holder.destinationTextView.setText("Destination: " + reservation.getDestination());
             holder.startingPointTextView.setText("From: " + reservation.getStartingPoint());
             holder.dateTextView.setText("Date: " + reservation.getDate());
+            holder.nameTextView.setText("Train: " + reservation.getName());
             holder.timeTextView.setText("Departure: " + reservation.getTime());
             holder.arrivalTimeTextView.setText("Arrival: " + reservation.getTimeTwo());
             holder.ticketPrice.setText("Ticket Price: Rs."+ reservation.getticketPrice()+"0");
+
+
+
 
             holder.bookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,7 +124,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                         long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
                         //booking date condition check
-                        if (daysDifference >= 30) {
+                        if (daysDifference >= 0) {
                             // Check if the fragment reference is not null
                             if (fragment != null) {
                                 // Create and show the booking confirmation dialog with reservation details
@@ -131,7 +135,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                                         selectedReservation.getDate(),
                                         selectedReservation.getTime(),
                                         selectedReservation.getTimeTwo(),
-                                        selectedReservation.getID()
+                                        selectedReservation.getID(),
+                                        selectedReservation.getName()
                                 );
                                 dialogFragment.show(fragment.requireActivity().getSupportFragmentManager(), "BookingConfirmationDialog");
                             }
@@ -174,12 +179,10 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         TextView destinationTextView;
         TextView startingPointTextView;
         TextView timeTextView;
-
         TextView arrivalTimeTextView;
-
         TextView ticketPrice;
-
         TextView dateTextView;
+        TextView nameTextView;
         Button bookButton;
 
         public ReservationViewHolder(View itemView) {
@@ -188,6 +191,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             startingPointTextView = itemView.findViewById(R.id.startingPointTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
             arrivalTimeTextView = itemView.findViewById(R.id.arrivalTextView);
             ticketPrice = itemView.findViewById(R.id.ticketTextView);
             bookButton = itemView.findViewById(R.id.bookButton);

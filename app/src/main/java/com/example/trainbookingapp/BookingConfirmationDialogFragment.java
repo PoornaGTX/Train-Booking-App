@@ -1,13 +1,25 @@
 package com.example.trainbookingapp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.text.ParseException;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -31,8 +43,10 @@ import com.example.trainbookingapp.utility.SharedPreferencesManager;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -47,7 +61,8 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     private String date;
     private String time;
     private String time2;
-    private  String sheduleID;
+    private String sheduleID;
+    private String name;
     private List<String> selectedAvailableDates;
     private List<String> selectedAvailableTimes;
     private Handler handler;
@@ -63,13 +78,14 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
     }
 
     // Method to set reservation details
-    public void setReservationDetails(String destination, String startingPoint, String date, String time,String time2, String sheduleID) {
+    public void setReservationDetails(String destination, String startingPoint, String date, String time, String time2, String sheduleID, String name) {
         this.destination = destination;
         this.startingPoint = startingPoint;
         this.date = date;
         this.time = time;
         this.time2 = time2;
         this.sheduleID = sheduleID;
+        this.name = name;
     }
 
 
@@ -95,11 +111,14 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         TextView startingTextView = view.findViewById(R.id.startingTextView);
         TextView dateTextView = view.findViewById(R.id.dateTextView);
         TextView timeTextView = view.findViewById(R.id.timeTextView);
+        TextView trainTextView = view.findViewById(R.id.trainTextView);
+
 
         startingTextView.setText("Starting Station: " + startingPoint);
         destinationTextView.setText("Destination Station: " + destination);
         dateTextView.setText("Date: " + date);
         timeTextView.setText("Time: " + time);
+        trainTextView.setText("Train: " + name);
 
         // Initialize buttons and set click listeners
         Button confirmButton = view.findViewById(R.id.confirmButton);
@@ -129,23 +148,54 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    //schedule notification
+    private void scheduleNotificationOneDayBefore() {
+        // Parse the selected booking date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            Date bookingDate = sdf.parse(date);
+
+            // Calculate the notification date, one day before the booking date
+            Calendar notificationCal = Calendar.getInstance();
+            notificationCal.setTime(bookingDate);
+            notificationCal.add(Calendar.DAY_OF_MONTH, -1);
+
+            // Set up the AlarmManager to schedule the notification
+            AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+            Intent notificationIntent = new Intent(requireContext(), NotificationReceiver.class);
+            notificationIntent.putExtra("message", "Your booked train is one day away!");
+
+            // unique request code to identify notification
+            int requestCode = 0;
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // Set the notification to be triggered one day before the booking date
+            long notificationTime = notificationCal.getTimeInMillis();
+            alarmManager.set(AlarmManager.RTC, notificationTime, pendingIntent);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Success alert
     private void showSuccessDialog() {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Success");
-                builder.setMessage("Booking has been updated successfully.");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
+                alertDialogBuilder.setTitle("Success");
+                alertDialogBuilder.setMessage("Booking has been updated successfully.");
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dismiss();
                     }
                 });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }
@@ -222,6 +272,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
                 if (context != null) {
                     if (response.isSuccessful()) {
                         showSuccessDialog();
+                        scheduleNotificationOneDayBefore();
                     } else {
                         if (response.errorBody() != null) {
                             try {

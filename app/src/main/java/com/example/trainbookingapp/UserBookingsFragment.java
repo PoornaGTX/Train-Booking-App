@@ -152,6 +152,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                             booking.setAvailableDates(availableDatesMap);
                             booking.setAvailableTimes(availableTimesMap);
 
+
                             // Insert the current booking item into the database
                             insertBookingToDatabase(booking);
                         }
@@ -208,10 +209,11 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
     // Method to save a booking to SQLite
     private void insertBookingToDatabase(Booking booking) {
 
-        boolean isBookingExists = bookingNewDB.isBookingExists(booking.getId());
+        boolean isBookingExists = bookingNewDB.isBookingExists(booking.getScheduleID());
 
         // Create a BookingSQL object from the Booking data
         if (!isBookingExists) {
+            Log.d("TAG", "insertBookingToDatabase: "+booking.getScheduleID());
             // Create a BookingSQL object from the Booking data
             BookingSQL bookingSQL = new BookingSQL(
                     booking.getDestination(),
@@ -220,7 +222,7 @@ public class UserBookingsFragment extends Fragment implements BookingAdapter.OnB
                     booking.getTime(),
                     booking.getTimeTwo(),
                     sharedPreferencesManager.getEmail(),
-                    booking.getId()
+                    booking.getScheduleID()
             );
             // Insert the BookingSQL object into the SQLite database
             bookingNewDB.insertBooking(bookingSQL);

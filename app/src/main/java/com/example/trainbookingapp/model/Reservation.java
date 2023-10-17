@@ -14,6 +14,7 @@ public class Reservation {
     private String arrivalTimeToEndStation;
     private String departureTimeFromStartStation;
     private String ticketPrice;
+    private String name;
 
 
     @SerializedName("availableDates")
@@ -92,5 +93,13 @@ public class Reservation {
 
     public void setAvailableTimesList(List<Map<String, String>> availableTimes) {
         this.availableTimes = availableTimes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

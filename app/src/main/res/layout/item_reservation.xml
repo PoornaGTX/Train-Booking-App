@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:gravity="center"
+
         android:orientation="horizontal"
         android:padding="8dp">
 
@@ -51,6 +51,16 @@
                 android:text="Ticket Price: Rs.1000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Train: Udarata Manike"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <!-- Inner LinearLayout for right side content -->

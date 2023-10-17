@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trainbookingapp.db.BookingNewDB;
 import com.example.trainbookingapp.model.Booking;
 import com.example.trainbookingapp.network.BookingApiClient;
 import com.example.trainbookingapp.utility.NetworkUtils;
@@ -40,6 +41,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     private OnItemClickListener onItemClickListener;
     private Fragment fragment;
     private FragmentManager childFragmentManager;
+    private  BookingNewDB bookingNewDB;
 
     public BookingAdapter(List<Booking> bookings) {
         this.bookings = bookings;
@@ -60,6 +62,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         this.bookings = bookings;
         this.context = context;
         this.onBookingDeletedListener = listener;
+
+        // Initialize the bookingNewDB object
+        bookingNewDB = new BookingNewDB(context);
 
     }
 
@@ -129,6 +134,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     // check the booking cancel condition
                     if (daysDifference >= 3) {
                         showDeleteConfirmationDialog(booking);
+                        //delete booking from local db
+                        bookingNewDB.deleteBooking(booking.getScheduleID());
+
                     } else {
                         showDeleteStatusDialog(false, "Booking can only be canceled with a minimum of 3 days before the booked date.");
                     }
@@ -290,7 +298,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         TextView destinationTextView;
         TextView startingTextView;
         TextView timeTextView;
-
         TextView dateTextView;
         Button editButton;
         Button closeButton;
