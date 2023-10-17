@@ -163,7 +163,7 @@ public class BookingConfirmationDialogFragment extends DialogFragment {
             // Set up the AlarmManager to schedule the notification
             AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
             Intent notificationIntent = new Intent(requireContext(), NotificationReceiver.class);
-            notificationIntent.putExtra("message", "Your booked train is one day away!");
+            notificationIntent.putExtra("message", "Train reminder: " + destination + " train at " + time);
 
             // unique request code to identify notification
             int requestCode = 0;

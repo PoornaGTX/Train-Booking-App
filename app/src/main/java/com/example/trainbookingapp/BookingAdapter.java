@@ -132,7 +132,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     long daysDifference = TimeUnit.MILLISECONDS.toDays(timeDifferenceInMillis);
 
                     // check the booking cancel condition
-                    if (daysDifference >= 3) {
+                    if (daysDifference >= 0) {
                         showDeleteConfirmationDialog(booking);
                         //delete booking from local db
                         bookingNewDB.deleteBooking(booking.getScheduleID());

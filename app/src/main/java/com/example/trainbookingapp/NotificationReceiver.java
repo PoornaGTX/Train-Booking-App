@@ -26,6 +26,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        notificationManager.notify(2, builder.build()); // unique ID for the notification
+        notificationManager.notify(NotificationHelper.CHANNEL_ID, 0, builder.build());
+        // unique ID for the notification
     }
 }

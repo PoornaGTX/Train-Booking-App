@@ -13,9 +13,9 @@ public class TrainApp extends Application {
     }
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "your_channel_id";
-            CharSequence channelName = "Your Channel Name";
-            String channelDescription = "Your Channel Description";
+            String channelId = "TrainBookings";
+            CharSequence channelName = "Train Bookings";
+            String channelDescription = "Train booking reminders";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);

@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        NotificationHelper.createNotificationChannel(this);
+
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
 
